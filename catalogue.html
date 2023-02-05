@@ -1,0 +1,131 @@
+<html>
+	<style>
+	#textboxContainer {
+		display: flex;
+		flex-wrap: nowrap;
+	}
+	
+	.container {
+		
+	}
+
+	input[type="text"] {
+		display: inline-block;
+		width: 100%;
+		height: 30px;
+	}
+
+	textarea {
+		width: 100%;
+		height: 400px;
+		display: inline-block;
+	}
+
+    /* make tables with the schedule class look pretty, with some padding between cells */
+    table.schedule {
+        border-collapse: collapse;
+        border: 1px solid black;
+
+    }
+
+    table.schedule td {
+        border: 1px solid black;
+        padding: 5px;
+        height: 80px;
+
+    }
+
+    /* make the text of table cells with the class wildcard slighly blue */
+    table.schedule td.wildcard {
+        color: #0000ff;
+    }
+
+	</style>
+<body>
+
+<div id="textboxContainer"></div>
+
+<p id="output"></p>
+
+<script>
+
+    // get JSON data from an external API URL
+    function getJSON(url) {
+        return new Promise(function(resolve, reject) {
+            let xhr = new XMLHttpRequest();
+            xhr.open('get', url, true);
+            xhr.responseType = 'json';
+            xhr.onload = function() {
+                let status = xhr.status;
+                if (status == 200) {
+                    resolve(xhr.response);
+                } else {
+                    reject(status);
+                }
+            };
+            xhr.send();
+        });
+    }
+
+    //console.log(getJSON("https://plans.ucsd.edu/controller.php?action=LoadPlans&college=SI&year=2022&major=CG35"));
+
+    let url = 'https://plans.ucsd.edu/controller.php?action=LoadPlans&college=SI&year=2022&major=CG35';
+
+    fetch(url)
+    .then(res => res.json())
+    .then(out =>
+    console.log('Checkout this JSON! ', out))
+    .catch(err => { throw err });
+
+    // run this function after the document is loaded
+    document.addEventListener("DOMContentLoaded", function() {
+
+        // test commands for the addDepartment function
+        console.log(addDepartment("COGS 190A,190B,190C,195,198,199,109,118A,118B,118C,118D,160,180,181,182,185,188,"));
+        console.log(addDepartment("PSYC 115B, 116, 120, 122, 123, 129"));
+        console.log(addDepartment("EDS 116(THROUGH FA18),117,124AR,124BR"));
+        console.log(addDepartment("CSE 101,102,105 BIPN 146,340 COGS 107A"));
+        console.log(addDepartment("CSE101,102,105,BIPN146,340,COGS107A"));
+        console.log(addDepartment("COGS 190A,190B,190C,195,198,199,109,118A,118B,118C,118D,160,180,181,182,185,188," +
+            "COGS 189 BIPN 146 CSE 100,101,102,105,130,131,150(THROUGH S320),150A,150B," +
+            "CSE 151A,151B,160 MATH 170A,170B,170C,180A,180B,180C,189 MGT 153 COGS 102A," +
+            "COGS 102B,102C,109,110,111,112,115,118A,118B,118C,118D,119,120,121,122,123,124," +
+            "COGS 125,126,137,138,143,144,151,152,153,154,155,156,157,160,163,164,165,169," +
+            "COGS 170,171,172,174,175,176,177,178,179,180,181,184,185,187A,187B,188,189 " +
+            "COMM 102C CSE 100,101,130,150(THROUGH S320),160 DSGN 100 EDS 114,115," +
+            "EDS 116(THROUGH FA18),117,124AR,124BR,136 LIGN 112,120,121,130,155,165,169,170," +
+            "LIGN 171,180,181 PHIL 134,136,149,150,151,163,164 PSYC 100,111A,111B,115A," +
+            "PSYC 115B,116,120,122,123,129,132,133,134,138,140,144,145,150,159,168,169,170," +
+            "PSYC 171,174,176,179,181,182,188,189"));
+    });
+</script>
+
+<button onclick="addTextbox()">Add Another Program</button><br><br>
+Sort alphabetically: <input type="checkbox" id="sortCheckbox"><br>
+
+<!---->
+<hr>
+
+<div id="schedules">
+
+</div>
+
+<!---->
+<hr>
+
+<textarea id="courseDumpTextbox" placeholder="Enter raw course lists here. (from Degree Audit, Degree Requirements, etc." style="width: 40%;"></textarea><br>
+<!-- checkbox that enables or disables the addition of an "and" at the end of the list -->
+<button onclick="expandCourseDump()">Expand Courses</button><br>
+Enable "and" at the end of the list:
+<input type="checkbox" id="andCheckbox"><br>
+Each course on new line:
+<input type="checkbox" id="newLineCheckbox" checked>
+<br>
+
+Number of courses: <span id="numCourses" style="font-weight: bold;"></span>
+
+<script src="comparison.js"></script>
+<script src="beautify.js"></script>
+<script src="scheduler.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+Lower Division
+1. One of the following sequences:
+a. Linear Algebra and Calculus: MATH 18 and 20A-B-C-D-E
+b. Honors Calculus: MATH 31AH-BH-CH, MATH 20D
+2. CSE 8A-B Introduction to Computer Science: Java, or CSE 11 Introduction to Computer Science: Java (Accelerated)
+3. Software Tools and Techniques Laboratory: CSE 15L
+4. Computer Organization and Systems Programming: CSE 30
+5. Basic Data Structures and Object-Oriented Design: CSE 12
+
+Upper Division
+A total of fourteen upper-division courses (totaling fifty-six units) are required:
+1. Mathematical Reasoning: MATH 109 (Note: Students completing MATH 31AH-BH-CH may substitute a four-unit upper-division mathematics elective for
+MATH 109.)
+2. Modern Applied Algebra: MATH 103A-B or Modern Algebra: MATH 100A-B
+3. Theory of Computability: CSE 105 (Note: CSE 21 or MATH 100A or MATH 103A or MATH 184 or MATH 184A must be taken prior to CSE 105.)
+4. Computer Implementations of Data Structures: CSE 100 (Note: CSE 21 or MATH 154 or MATH 184 or MATH 184A must be taken prior to CSE 100.)
+5. Intro to Probability: MATH 180A or 183 (Note that MATH 183 is not a prerequisite for MATH 181A; further, note that duplication of credit exists between
+MATH 180A/183 and ECON 120A.)
+6. Discrete Math or Combinatorics: MATH 154 or 158 or MATH 184 or 188
+7. Design and Analysis of Algorithms: CSE 101
+8. Applied Mathematics Electives: Eight units from MATH 170A-B-C, 171A-B, 173A-B, 174, 175, 179, 180B-C, 181A-B-C-E
+9. Computational Electives: Eight units from MATH 152, 154, 155A-B, 157, 158, 160A-B, 168A, 182, 184, 185, 187A-B, 188, 189, CSE 107, 110, 120-121, 123,
+124, 127, 130, 131, 132A-B, 134B, 140-140L, 141-141L, 142, 150A-B, 151A, 152A-B, 158, 160, 165, 167, 168, 169, 176A, COGS 108, 118A-B, 120, 185, 188
+10. General Math—C$S Electives: Eight additional units from any course in list #8 or #9 above or MATH 100C, 102, 104A-B, 106, 110, 111A-B, 114, 120A-B, 130,
+140A-B, 142A-B, 144, 150A-B, 163, 181D, 181F, 190A-B, 193A-B, 194

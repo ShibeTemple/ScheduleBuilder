@@ -1,0 +1,211 @@
+<!--
+
+Store the required courses and their prerequisites in an appropriate data structure. 
+A graph data structure might be appropriate for this, where each course is a node and each prerequisites relationship is represented as an edge.
+
+Develop an algorithm for generating a schedule. 
+One approach could be to use a depth-first search to traverse the graph, 
+making sure to visit each node in an order that satisfies all of its prerequisites.
+
+Consider the time constraints. 
+In order to schedule the courses over four years, 
+you'll need to keep track of how many courses are being taken in each semester and 
+make sure that the schedule doesn't exceed the maximum number of courses per semester.
+
+Optimize the schedule. 
+There are many factors that could influence the "best fit" schedule, 
+such as maximizing the number of courses taken per semester, 
+minimizing the number of semesters required to complete the degree, 
+or minimizing the number of semesters where the student is taking a heavy course load. 
+You'll need to decide on the criteria for what makes a schedule the "best fit" and write code to optimize for that.
+
+-->
+  
+// HTML base code
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Course Scheduler</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+
+// findOrder function
+// Input: courses (array of strings), prerequisites (2D array of strings)
+// Output: array of strings
+// Time complexity: O(V + E)
+// Space complexity: O(V + E)
+// V = number of vertices (courses)
+// E = number of edges (prerequisites)
+// NOTE: This function assumes that there are no cycles in the graph.
+// If there are cycles, the function will return an empty array.
+// NOTE: This function assumes that there are no duplicate courses in the courses array.
+// If there are duplicate courses, the function will return an empty array.
+// NOTE: This function assumes that there are no duplicate prerequisites in the prerequisites array.
+// If there are duplicate prerequisites, the function will return an empty array.
+// NOTE: This function assumes that the courses and prerequisites arrays are valid.
+// If they are not valid, the function will return an empty array.
+// NOTE: This function assumes that the courses and prerequisites arrays are not empty.
+// If they are empty, the function will return an empty array.
+function findOrder(courses, prerequisites) {
+    let graph = new Map();
+    let indegree = new Map();
+    let queue = [];
+
+    // Create graph and indegree map
+    for (let course of courses) {
+        graph.set(course, []);
+        indegree.set(course, 0);
+    }
+
+    // Add edges and update indegree map
+    for (let [course, prereq] of prerequisites) {
+        graph.get(prereq).push(course);
+        indegree.set(course, indegree.get(course) + 1);
+    }
+
+    // Add courses with indegree of 0 to queue
+    for (let [course, count] of indegree) {
+        if (count === 0) {
+            queue.push(course);
+        }
+    }
+
+    // BFS
+    let order = [];
+    while (queue.length) {
+        let prereq = queue.shift();
+        order.push(prereq);
+
+        // Remove edges and update indegree map
+        if (graph.has(prereq)) {
+            // Loop through each course that has prereq as a prerequisite
+            for (let course of graph.get(prereq)) {
+                // Remove edge
+                indegree.set(course, indegree.get(course) - 1);
+                // Add course to queue if indegree is 0
+                if (indegree.get(course) === 0) {
+                    queue.push(course);
+                }
+            }
+        }
+    }
+
+    // Check if there is a cycle
+    if (order.length !== courses.length) {
+        return [];
+    }
+    return order;
+}
+
+
+let courses = ["Math", "Algebra", "Physics", "Biology"];
+let prerequisites = [["Math", "Algebra"], ["Algebra", "Biology"]];
+
+console.log("courses:", courses);
+console.log("prerequisites:", prerequisites);
+console.log("wildcard:");
+
+// Removes wildcard courses from courses and returns them in an array
+// NOTE: pretty inefficient, but it works for now.
+/*
+function removeWildcards(courses, prerequisites) {
+  const wildcardCourses = [];
+  // Loop through each course
+
+  for (let i = 0; i < courses.length; i++) {
+    let found = false;
+    // For each course, check if it is a prerequisite for any other course
+    for (let j = 0; j < prerequisites.length; j++) {
+      // if it is, remove it from the courses array and add it to the wildcardCourses array
+      if (prerequisites[j].includes(courses[i])) {
+        found = true;
+        break;
+      }
+    }
+    // If it is not a prerequisite for any other course, remove it from the courses array and add it to the wildcardCourses array
+    if (!found) {
+      wildcardCourses.push(courses[i]);
+      courses.splice(i, 1);
+      i--;
+    }
+  }
+
+  return wildcardCourses;
+}*/
+function removeWildcards(courses, prerequisites) {
+  const wildcardCourses = [];
+  const prereqMap = new Map();
+
+  // Loop through each prerequisite (2D array)
+  for (const prereq of prerequisites) {
+    for (const course of prereq) {
+      // If the course is not in the map, add it with a value of 1
+      if (!prereqMap.has(course)) {
+        prereqMap.set(course, 0);
+      }
+      prereqMap.set(course, prereqMap.get(course) + 1);
+    }
+  }
+  // Loop through each course
+  for (let i = 0; i < courses.length; i++) {
+    // If the course is not in the map, remove it from the courses array and add it to the wildcardCourses array
+    if (!prereqMap.has(courses[i])) {
+      wildcardCourses.push(courses[i]);
+      courses.splice(i, 1);
+      i--;
+    }
+  }
+  return wildcardCourses;
+}
+
+
+
+wildcard = removeWildcards(courses, prerequisites);
+
+console.log("courses:", courses);
+console.log("prerequisites:", prerequisites);
+console.log("wildcard:", wildcard);
+
+console.log(findOrder(courses, prerequisites));
+
+// Test 1: all wildcard courses
+console.log("----no prerequisites test"); 
+
+courses = ["Math", "Algebra", "Physics", "Biology"];
+prerequisites = [];
+
+console.log("-pre-removeWildcard=");
+console.log("courses:", courses);
+console.log("prerequisites:", prerequisites);
+console.log("wildcard:");
+
+wildcard = removeWildcards(courses, prerequisites);
+
+console.log("-post-removeWildcard=");
+console.log("courses:", courses);
+console.log("prerequisites:", prerequisites);
+console.log("wildcard:", wildcard);
+
+console.log(findOrder(courses, prerequisites));
+
+
+    </script>
+  </head>
+  <body>
+    <h1>Course Scheduler</h1>
+    <div id="container">
+      <div id="input">
+        <h2>Input</h2>
+        <textarea id="input-text" placeholder="Enter your courses and prerequisites here"></textarea>
+        <button id="generate">Generate Schedule</button>
+      </div>
+      <div id="output">
+        <h2>Output</h2>
+        <textarea id="output-text" placeholder="Your schedule will appear here"></textarea>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+
+</html>
